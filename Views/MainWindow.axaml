@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TestAvalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:TestAvalonia.Models"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="TestAvalonia.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TestAvalonia">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="auto"/>
+      <ColumnDefinition Width="auto"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Stretch" Margin="5">
+
+      <TextBox x:Name="Search" Width="120" MaxLength="20" Height="24" HorizontalAlignment="Center"></TextBox>
+               <!--VerticalAlignment="Center" TextChanged="Search_TextChanged"-->
+
+      <TreeView>
+          <TreeViewItem IsExpanded="True">
+              <ItemsControl ItemsSource="{Binding SortBooks}">
+                  <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                          <TreeViewItem Header="{Binding Genre}">
+                              <ItemsControl ItemsSource="{Binding Books}">
+                                  <ItemsControl.ItemTemplate>
+                                      <DataTemplate>
+                                          <TextBlock Text="{Binding Name}"/>
+                                      </DataTemplate>
+                                  </ItemsControl.ItemTemplate>
+                              </ItemsControl>
+                          </TreeViewItem>
+                      </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+              </ItemsControl>
+          </TreeViewItem>
+      </TreeView>
+    </StackPanel>
+
+    <DataGrid x:Name="Data" AutoGenerateColumns="True"
+              ItemsSource="{Binding Path=CommonBooks}" IsReadOnly="True"
+              GridLinesVisibility="All"
+              Grid.Column="2" HeadersVisibility="Column">
+      <DataGrid.Columns>
+          <DataGridTextColumn Header="First Name"  Binding="{Binding Genre}"/>
+        <DataGridTextColumn Header="Жанр" Binding="{Binding Path=Genre, Mode=OneWay}"/>
+        <DataGridTextColumn Header="Название" Binding="{Binding Path=Name, Mode=OneWay}"/>
+        <DataGridTextColumn Header="Автор" Binding="{Binding Path=Author, Mode=OneWay}"/>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <GridSplitter Grid.Column="1" Width="3" BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left"/>
+
+  </Grid>
+
+</Window>
