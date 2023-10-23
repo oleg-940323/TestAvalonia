@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Avalonia.Controls.Models.TreeDataGrid;
 using TestAvalonia.Models;
 
 namespace TestAvalonia.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-
         private ObservableCollection<Book> commonBooks = new() {
             new Book() { Name = "Война и мир", Author = "Лев Толстой", Genre = "Роман" },
             new Book() { Name = "Гарри Поттер и философский камень", Author = "Джоан Роулинг", Genre = "Фэнтези" },
@@ -49,6 +50,12 @@ namespace TestAvalonia.ViewModels
             }
         }
 
+        public HierarchicalTreeDataGridSource<Person> Source { get; }
+        public MainWindowViewModel()
+        {
+            Sort(CommonBooks);
+        }
+
         /// <summary>
         /// Сортировка книг по жанрам
         /// </summary>
@@ -64,12 +71,12 @@ namespace TestAvalonia.ViewModels
             foreach (var key in booksByGenre)
                 SortBooks.Add(new Group() { Genre = key.Key, Books = new ObservableCollection<Book>(key.Value) });
 
-            OnPropertyChanged("SortBooks");
+            OnPropertyChanged(nameof(SortBooks));
         }
 
         public void SearchBooks(string text)
         {
-            Sort(new ObservableCollection<Book>(CommonBooks.Where(b => b.Name.StartsWith(text))));
+            Sort(new ObservableCollection<Book>(CommonBooks.Where(b => b.Name.ToUpper().StartsWith(text.ToUpper()))));
         }
     }
 }
