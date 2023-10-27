@@ -8,9 +8,6 @@ namespace TestAvalonia
 {
     public partial class App : Application
     {
-
-        MainWindowViewModel viewModel = new();
-
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -20,7 +17,7 @@ namespace TestAvalonia
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow() {DataContext = new MainWindowViewModel()};
+                desktop.MainWindow = new MainWindow();
             }
 
             base.OnFrameworkInitializationCompleted();

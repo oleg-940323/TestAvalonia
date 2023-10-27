@@ -13,64 +13,47 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="TestAvalonia">
 
-	<Window.Resources>
-		<models:ColumnWidthConverter x:Key="ColumnWidthConverter"/>
-	</Window.Resources>
-	
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="auto" MinWidth="120"/>
-      <ColumnDefinition Width="auto"/>
-      <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
+	<Grid x:Name="grid" >
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="auto" MinWidth="128" />
+			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
 
-    <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Stretch">
+		<Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RowDefinitions="auto,*">
+			
+			<TextBox x:Name="Search"  Grid.Row="0" MinWidth="120" Height="20" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="4,4,4,0"/>
+		            
+			<TreeDataGrid x:Name="treeView" Grid.Row="1"
+							Source="{Binding Source}"
+							AutoDragDropRows="True"
+							ShowColumnHeaders="False"
+							VerticalAlignment="Top">
+				<TreeDataGrid.Styles>
+					<Style Selector="TreeDataGrid TreeDataGridRow:nth-child(2n)">
+						<Setter Property="Background"  Value="#20808080"/>
+					</Style>
+				</TreeDataGrid.Styles>
+			</TreeDataGrid>
+		</Grid>
 
-      <TextBox x:Name="Search" Width="{Binding ColumnDefinitions[0].Width, 
-                         RelativeSource={RelativeSource AncestorType=Grid},
-                         Converter={StaticResource ColumnWidthConverter}}"
-			   MinWidth="120" Height="20" HorizontalAlignment="Center"
-			   Margin="4,4,4,0"></TextBox>
-               <!--VerticalAlignment="Center" TextChanged="Search_TextChanged"-->
+		<TreeDataGrid x:Name="dataGrid" Grid.Column="2" Source="{Binding FiltrCollect}" AutoDragDropRows="True" 
+						  ShowColumnHeaders="True" />
+		<!--<DataGrid x:Name="data" AutoGenerateColumns="False"
+				  ItemsSource="{Binding FiltrCollect}" IsReadOnly="True"
+				  GridLinesVisibility="All"
+				  Grid.Column="2" HeadersVisibility="Column"
+				  CanUserResizeColumns="True">
+		  <DataGrid.Columns>
+			<DataGridTextColumn Header="Жанр" Binding="{Binding Genre}"/>
+			<DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+			<DataGridTextColumn Header="Автор" Binding="{Binding Author}"/>
+		  </DataGrid.Columns>
+		</DataGrid>-->
 
-		<!--<TreeView ItemsSource="{Binding SortBooks}" BorderThickness="0" Padding="0">
-			<TreeView.ItemTemplate>
-				<TreeDataTemplate ItemsSource="{Binding Books}">
-					<TextBlock Text="{Binding Genre}"/>
-				</TreeDataTemplate>
-			</TreeView.ItemTemplate>
-			<TreeView.DataTemplates>
-				<TreeDataTemplate DataType="{x:Type models:Book}">
-					<TextBlock Text="{Binding Name}" Margin="0,2,0,2"/>
-				</TreeDataTemplate>
-			</TreeView.DataTemplates>
-		</TreeView>-->
-		<avaloniaControls:treed="" TreeDataGrid ItemsSource ="{Binding SortBooks}">
-			<avaloniaControls: TreeDataGrid.Columns>
-				<avaloniaControls:TreeDataGridTextColumn Title="Genre" Property="Genre" />
-				<avaloniaControls:TreeDataTemplate>
-					<ListBox ItemsSource="{Binding Group}">
-					</ListBox>
-				</avaloniaControlsTreeDataTemplate>
-			</avaloniaControlsTreeDataGrid.Columns>
-		</avaloniaControlsTreeDataGrid>
-    </StackPanel>
-
-    <DataGrid x:Name="Data" AutoGenerateColumns="False"
-              ItemsSource="{Binding CommonBooks}" IsReadOnly="True"
-              GridLinesVisibility="All"
-              Grid.Column="2" HeadersVisibility="Column"
-			  CanUserResizeColumns="True">
-      <DataGrid.Columns>
-        <DataGridTextColumn Header="Жанр" Binding="{Binding Genre}"/>
-        <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
-        <DataGridTextColumn Header="Автор" Binding="{Binding Author}"/>
-      </DataGrid.Columns>
-    </DataGrid>
-
-	  <GridSplitter Grid.Column="1" Width="2" BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Background="#DDDDDD" Cursor="SizeWestEast"
+	    <GridSplitter Grid.Column="1" Width="2" BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Background="#DDDDDD" Cursor="SizeWestEast"
 					ResizeBehavior="PreviousAndNext" ResizeDirection="Columns">
-	  </GridSplitter>
+	    </GridSplitter>
 
   </Grid>
 
