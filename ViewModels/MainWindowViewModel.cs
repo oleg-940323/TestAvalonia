@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.WebSockets;
 using System.Reflection;
 using Avalonia.Controls;
+using System.Timers;
 using Avalonia.Controls.Models.TreeDataGrid;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
 using DynamicData.Binding;
 using Microsoft.VisualBasic;
 using TestAvalonia.Models;
@@ -16,6 +19,9 @@ namespace TestAvalonia.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        // Таймер для проверки узлов после перетаскивания
+        Timer timer = new Timer(20);
+
         // Книги
         private readonly ObservableCollection<Book> commonBooks = new() {
             new Book() { Name = "Война и мир", Author = "Лев Толстой", Genre = "Роман", index = 0},
@@ -40,20 +46,22 @@ namespace TestAvalonia.ViewModels
 
         // Книги, отображенные в дереве
         private ObservableCollection<Book> sortBooks = new();
-        public HierarchicalTreeDataGridSource<Book> Source { get; set; }
+        public ObservableCollection<Book> SortBooks { get => sortBooks;
+            set { sortBooks = value; }
+        }
 
         public MainWindowViewModel()
         {
             Sort(commonBooks);
 
             // Инициализация дерева
-            Source = new HierarchicalTreeDataGridSource<Book>(sortBooks)
-            {
-                Columns =
-                {
-                    new HierarchicalExpanderColumn<Book>( new TextColumn<Book, string>("", x => x.Name), x => x.Children, x => x.HasClild, x => x.IsExpanded)
-                }
-            };
+            // SortBooks = new HierarchicalTreeDataGridSource<Book>(sortBooks)
+            // {
+            //     Columns =
+            //     {
+            //         new HierarchicalExpanderColumn<Book>( new TextColumn<Book, string>("", x => x.Name), x => x.Children, x => x.HasClild, x => x.IsExpanded)
+            //     }
+            // };
 
             // Инициализация таблицы
             FiltrCollect = new FlatTreeDataGridSource<Book>(filtrCollect)
@@ -67,14 +75,14 @@ namespace TestAvalonia.ViewModels
             };
 
             // Включение множественного выбора
-            Source.RowSelection!.SingleSelect = false;
+            //SortBooks.RowSelection!.SingleSelect = false;
             FiltrCollect.RowSelection!.SingleSelect = false;
+
+            // Инициализация таймера
+            timer.Elapsed += Timer_Elapsed;
         }
 
-        /// <summary>
-        /// Сортировка книг по жанрам
-        /// </summary>
-        /// <param name="books"> Коллекция с неотсортированными книгами </param>
+        // Сортировка книг по жанрам
         public void Sort(ObservableCollection<Book> book)
         {
             // Получаем словарь сортированных книг
@@ -117,11 +125,7 @@ namespace TestAvalonia.ViewModels
                 temprCollect.Add(book);
         }
 
-        /// <summary>
-        /// Задание параметров брошенному элементу в дереве
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        // Задание параметров брошенному элементу в дереве
         public void OnTreeViewElementDroped(object? sender, TreeDataGridRowDragEventArgs e)
         {
             var book = (e.TargetRow.DataContext as Book);
@@ -131,18 +135,39 @@ namespace TestAvalonia.ViewModels
                 book.HasClild = true;
                 book.IsExpanded = true;
             }
-            else
-            {
-                if (book.Children != null && book.Children.Count > 0)
-                {
+            else if (e.Position != TreeDataGridRowDropPosition.None)
+                timer.Start();
+        }
 
-                }
+        private void Timer_Elapsed(object sender, EventArgs e)
+        {
+            timer.Stop();
+
+            foreach (var book in sortBooks)
+            {
+                if (book.Children.Count > 0)
+                    SearchBook(book);
                 else
                 {
-                    book.HasClild = false;
                     book.IsExpanded = false;
+                    book.HasClild = false;
                 }
             }
+        }
+
+        void SearchBook(Book books)
+        {
+            foreach (var book in books.Children)
+            {
+                if (book.Children.Count > 0)
+                    SearchBook(book);
+                else
+                {
+                    book.IsExpanded = false;
+                    book.HasClild = false;
+                }
+            }
+
         }
 
         public bool OnSubTreeViewElementDroped(ObservableCollection<Book> children, UInt16 index, bool act)

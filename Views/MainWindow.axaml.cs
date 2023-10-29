@@ -18,16 +18,18 @@ namespace TestAvalonia.Views
 
             // Присвоение событий
             Search.TextChanged += context.onTextChanged;
-            treeView.RowDragStarted += context.RowDragStarted;
-            treeView.RowDrop += context.OnTreeViewElementDroped;
+            //View1.RowDragStarted += context.RowDragStarted;
+            //View1.RowDrop += context.OnTreeViewElementDroped;
+            View1.SelectionMode = SelectionMode.Multiple;
+            View1.Classes = "NodesDragAndDrop";
             dataGrid.PointerReleased += context.OnPointerReleased;
             dataGrid.RowDrop += context.OnTreeViewElementDroped;
-            dataGrid.KeyUp += onDeleteBook;
+            dataGrid.KeyUp += OnDeleteBook;
 
         }
 
         // Удаление выделенных элементов в таблице
-        void onDeleteBook(object sender, KeyEventArgs e)
+        void OnDeleteBook(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
             {
