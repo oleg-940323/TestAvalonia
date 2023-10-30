@@ -6,40 +6,15 @@
         xmlns:models="clr-namespace:TestAvalonia.Models"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
 		xmlns:avalonia="clr-namespace:Avalonia;assembly=Avalonia"
+		xmlns:b="using:DragAndDropSample.Behaviors"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
 		xmlns:avaloniaControls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="TestAvalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="TestAvalonia">
-
-    <Window.Styles>
-
-    <Style Selector="TreeView.NodesDragAndDrop">
-      <Style.Resources>
-        <b:NodesTreeViewDropHandler x:Key="NodesTreeViewDropHandler" />
-      </Style.Resources>
-      <Setter Property="(i:Interaction.Behaviors)">
-        <i:BehaviorCollectionTemplate>
-          <i:BehaviorCollection>
-            <idd:ContextDropBehavior Handler="{StaticResource NodesTreeViewDropHandler}" />
-          </i:BehaviorCollection>
-        </i:BehaviorCollectionTemplate>
-      </Setter>
-    </Style>
-
-    <Style Selector="TreeView.NodesDragAndDrop TreeViewItem">
-      <Setter Property="IsExpanded" Value="True" />
-      <Setter Property="(i:Interaction.Behaviors)">
-        <i:BehaviorCollectionTemplate>
-          <i:BehaviorCollection>
-            <idd:ContextDragBehavior />
-          </i:BehaviorCollection>
-        </i:BehaviorCollectionTemplate>
-      </Setter>
-    </Style>
-
-  </Window.Styles>
 
 	<Grid x:Name="grid" >
 		<Grid.ColumnDefinitions>
@@ -52,30 +27,30 @@
 			
 			<TextBox x:Name="Search"  Grid.Row="0" MinWidth="120" Height="20" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="4,4,4,0"/>
 
-      <TreeView x:Name="View1" Grid.Row="1" ItemsSource="{Binding SortBooks}" BorderThickness="0" Padding="0">
-			    <TreeView.ItemTemplate>
-				    <TreeDataTemplate ItemsSource="{Binding Children}">
-					    <TextBlock Text="{Binding Name}"/>
-				    </TreeDataTemplate>
-			    </TreeView.ItemTemplate>
-			    <TreeView.DataTemplates>
-				    <TreeDataTemplate DataType="{x:Type models:Book}">
-					    <TextBlock Text="{Binding Name}" Margin="0,2,0,2"/>
-				    </TreeDataTemplate>
-			    </TreeView.DataTemplates>
-		</TreeView>
-
-			<!--<TreeDataGrid x:Name="treeView" Grid.Row="1"
+			<TreeDataGrid x:Name="treeView" Grid.Row="1"
 							Source="{Binding SortBooks}"
 							AutoDragDropRows="True"
 							ShowColumnHeaders="False"
 							VerticalAlignment="Top">
+				
 				<TreeDataGrid.Styles>
+					<Style Selector="TreeDataGridColumnHeader.NodesDragAndDrop TreeViewItem">
+						<Setter Property="IsExpanded" Value="True" />
+						<Setter Property="(i:Interaction.Behaviors)">
+							<i:BehaviorCollectionTemplate>
+								<i:BehaviorCollection>
+									<idd:ContextDragBehavior />
+								</i:BehaviorCollection>
+							</i:BehaviorCollectionTemplate>
+						</Setter>
+					</Style>
+
 					<Style Selector="TreeDataGrid TreeDataGridRow:nth-child(2n)">
 						<Setter Property="Background"  Value="#20808080"/>
+						<Setter Property="DragDrop.AllowDrop" Value="True"/>
 					</Style>
 				</TreeDataGrid.Styles>
-			</TreeDataGrid>-->
+			</TreeDataGrid>
 		</Grid>
 
 		<TreeDataGrid x:Name="dataGrid" Grid.Column="2" Source="{Binding FiltrCollect}" AutoDragDropRows="True" 

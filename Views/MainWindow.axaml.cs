@@ -17,11 +17,9 @@ namespace TestAvalonia.Views
             DataContext = context;
 
             // Присвоение событий
-            Search.TextChanged += context.onTextChanged;
-            //View1.RowDragStarted += context.RowDragStarted;
-            //View1.RowDrop += context.OnTreeViewElementDroped;
-            View1.SelectionMode = SelectionMode.Multiple;
-            View1.Classes = "NodesDragAndDrop";
+            Search.TextChanged += context.OnTextChanged;
+            //treeView.RowDragStarted += context.RowDragStarted;
+            //treeView.RowDrop += context.OnTreeViewElementDroped;
             dataGrid.PointerReleased += context.OnPointerReleased;
             dataGrid.RowDrop += context.OnTreeViewElementDroped;
             dataGrid.KeyUp += OnDeleteBook;

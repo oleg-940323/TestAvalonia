@@ -27,15 +27,15 @@ namespace TestAvalonia.Models
 
         // Подуровень
         private ObservableCollection<Book>? children = new();
-        public ObservableCollection<Book>? Children { get => children; set { children = value; OnPropertyChanged("Name"); } }
+        public ObservableCollection<Book>? Children { get => children; set { children = value; OnPropertyChanged(nameof(Name)); } }
 
         // Раскрыт
         private bool isExpanded = true;
-        public bool IsExpanded { get => isExpanded; set { isExpanded = value; OnPropertyChanged("Name"); } }
+        public bool IsExpanded { get => isExpanded; set { isExpanded = value; OnPropertyChanged(nameof(Name)); } }
 
         // Есть еще подуровень
         private bool hasClild = false;
-        public bool HasClild { get => hasClild; set {hasClild = value; OnPropertyChanged("Name"); } }
+        public bool HasClild { get => hasClild; set {hasClild = value; OnPropertyChanged(nameof(Name)); } }
 
         // Индекс книги
         public UInt16 index;

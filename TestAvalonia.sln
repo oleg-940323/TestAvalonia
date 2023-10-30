@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAvalonia", "TestAvalonia.csproj", "{1048F95B-FAB4-40E6-9D53-9C3C79367E44}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Controls.TreeDataGrid", "..\Avalonia.Controls.TreeDataGrid-master\src\Avalonia.Controls.TreeDataGrid\Avalonia.Controls.TreeDataGrid.csproj", "{14B7713F-C3B5-499E-94BC-7579B02E3774}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{1048F95B-FAB4-40E6-9D53-9C3C79367E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1048F95B-FAB4-40E6-9D53-9C3C79367E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1048F95B-FAB4-40E6-9D53-9C3C79367E44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14B7713F-C3B5-499E-94BC-7579B02E3774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14B7713F-C3B5-499E-94BC-7579B02E3774}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14B7713F-C3B5-499E-94BC-7579B02E3774}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14B7713F-C3B5-499E-94BC-7579B02E3774}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
