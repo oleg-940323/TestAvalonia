@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Avalonia.Controls;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace TestAvalonia.Models
 {
+    // Класс книги
     public class Book : INotifyPropertyChanged
     {
-        #region
+        #region Реализация интерфейса 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -20,7 +22,8 @@ namespace TestAvalonia.Models
         public string? Genre { get; set; }
 
         // Название книги
-        public string? Name { get; set; }
+        private string? name;
+        public string? Name { get => name; set { name = value; OnPropertyChanged(nameof(Name));} }
 
         // Автор
         public string? Author { get; set; }
@@ -29,13 +32,9 @@ namespace TestAvalonia.Models
         private ObservableCollection<Book>? children = new();
         public ObservableCollection<Book>? Children { get => children; set { children = value; OnPropertyChanged(nameof(Name)); } }
 
-        // Раскрыт
+        // Раскрыт ли
         private bool isExpanded = true;
         public bool IsExpanded { get => isExpanded; set { isExpanded = value; OnPropertyChanged(nameof(Name)); } }
-
-        // Есть еще подуровень
-        private bool hasClild = false;
-        public bool HasClild { get => hasClild; set {hasClild = value; OnPropertyChanged(nameof(Name)); } }
 
         // Индекс книги
         public UInt16 index;

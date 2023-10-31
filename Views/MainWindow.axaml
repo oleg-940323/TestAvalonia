@@ -6,7 +6,6 @@
         xmlns:models="clr-namespace:TestAvalonia.Models"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
 		xmlns:avalonia="clr-namespace:Avalonia;assembly=Avalonia"
-		xmlns:b="using:DragAndDropSample.Behaviors"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
 		xmlns:avaloniaControls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
@@ -16,26 +15,54 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="TestAvalonia">
 
-	<Grid x:Name="grid" >
+	<Grid x:Name="grid">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="auto" MinWidth="128" />
+			<ColumnDefinition Width="auto" 
+							  MinWidth="128"/>
 			<ColumnDefinition Width="auto"/>
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 
-		<Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RowDefinitions="auto,*">
+		<Grid Grid.Column="0"  
+			  RowDefinitions="auto,*"
+			  VerticalAlignment="Stretch"
+			  HorizontalAlignment="Stretch">
 			
-			<TextBox x:Name="Search"  Grid.Row="0" MinWidth="120" Height="20" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="4,4,4,0"/>
+			<TextBox Height="20" 
+					 Grid.Row="0" 
+					 MinWidth="120" 
+					 x:Name="Search" 
+					 Margin="4,4,4,0"
+					 VerticalAlignment="Top" 
+					 HorizontalAlignment="Stretch"/>
 
-			<TreeDataGrid x:Name="treeView" Grid.Row="1"
-							Source="{Binding SortBooks}"
-							AutoDragDropRows="True"
-							ShowColumnHeaders="False"
-							VerticalAlignment="Top">
-				
+			<TreeDataGrid Grid.Row="1"
+						  x:Name="treeView"
+						  VerticalAlignment="Top"
+						  AutoDragDropRows="True"
+						  ShowColumnHeaders="False"
+						  Source="{Binding SortBooks}">
+
 				<TreeDataGrid.Styles>
-					<Style Selector="TreeDataGridColumnHeader.NodesDragAndDrop TreeViewItem">
-						<Setter Property="IsExpanded" Value="True" />
+					<Style Selector="TreeDataGridExpanderCell">
+						<Setter Value="True"
+								Property="IsExpanded"/>
+						<Setter Value="True"
+								Property="DragDrop.AllowDrop"/>
+					</Style>
+
+					<Style Selector="TreeDataGrid TreeDataGridRow:nth-child(2n)">
+						<Setter Value="#20808080"
+								Property="Background"/>
+					</Style>
+				</TreeDataGrid.Styles>
+			</TreeDataGrid>
+			<!--<TreeView x:Name="treeView" ItemsSource="{Binding SortBooks}"
+					Classes="NodesDragAndDrop" Grid.Row="1"
+					  SelectionMode="Multiple">
+				<TreeView.Styles>
+					<Style Selector="TreeView.NodesDragAndDrop TreeViewItem">
+						<Setter Property="IsExpanded" Value="True"/>
 						<Setter Property="(i:Interaction.Behaviors)">
 							<i:BehaviorCollectionTemplate>
 								<i:BehaviorCollection>
@@ -44,18 +71,24 @@
 							</i:BehaviorCollectionTemplate>
 						</Setter>
 					</Style>
-
-					<Style Selector="TreeDataGrid TreeDataGridRow:nth-child(2n)">
-						<Setter Property="Background"  Value="#20808080"/>
-						<Setter Property="DragDrop.AllowDrop" Value="True"/>
-					</Style>
-				</TreeDataGrid.Styles>
-			</TreeDataGrid>
+					
+				</TreeView.Styles>
+				<TreeView.ItemTemplate>
+					<TreeDataTemplate DataType="models:Book" ItemsSource="{Binding Children}">
+						<TextBlock Text="{Binding Name}" />
+					</TreeDataTemplate>
+				</TreeView.ItemTemplate>
+			</TreeView>-->
 		</Grid>
 
-		<TreeDataGrid x:Name="dataGrid" Grid.Column="2" Source="{Binding FiltrCollect}" AutoDragDropRows="True" 
-						  ShowColumnHeaders="True"/>
-		<!--<DataGrid x:Name="data" AutoGenerateColumns="False"
+		<TreeDataGrid Grid.Column="2"
+					  x:Name="dataGrid" 
+					  AutoDragDropRows="True" 
+					  ShowColumnHeaders="True"
+					  Source="{Binding FiltrCollect}"
+					  BorderThickness="5"/>
+		
+		<!--<DataGrid x:Name="dataGrid" AutoGenerateColumns="False"
 				  ItemsSource="{Binding FiltrCollect}" IsReadOnly="True"
 				  GridLinesVisibility="All"
 				  Grid.Column="2" HeadersVisibility="Column"
@@ -67,8 +100,15 @@
 		  </DataGrid.Columns>
 		</DataGrid>-->
 
-	    <GridSplitter Grid.Column="1" Width="2" BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Background="#DDDDDD" Cursor="SizeWestEast"
-					ResizeBehavior="PreviousAndNext" ResizeDirection="Columns">
+	    <GridSplitter Width="2"
+					  Grid.Column="1"
+					  BorderBrush="Gray" 
+					  BorderThickness="1" 
+					  Background="#DDDDDD" 
+					  Cursor="SizeWestEast"
+					  ResizeDirection="Columns"
+					  HorizontalAlignment="Left" 
+					  ResizeBehavior="PreviousAndNext">
 	    </GridSplitter>
 
   </Grid>
