@@ -19,7 +19,7 @@ namespace TestAvalonia.Views
             // Присвоение событий
             Search.TextChanged += context.OnTextChanged;
             treeView.RowDragStarted += context.RowDragStarted;
-            //dataGrid.PointerReleased += context.OnPointerReleased;
+            dataGrid.PointerReleased += context.OnPointerReleased;
             dataGrid.RowDrop += context.OnRowDroped;
             dataGrid.KeyUp += OnDeleteBook;
         }

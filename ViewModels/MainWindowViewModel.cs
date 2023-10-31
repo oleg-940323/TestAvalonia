@@ -123,14 +123,14 @@ namespace TestAvalonia.ViewModels
         }
 
         // Добавление в таблицу при отпускании
-        /*public void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+        public void OnPointerReleased(object sender, PointerReleasedEventArgs e)
         {
             foreach (var item in temprCollect)
                 if (!filtrCollect.Contains(item))
                     filtrCollect.Add(item);
 
             temprCollect.Clear();
-        }*/
+        }
 
         // Добавление в таблицу при отпускании
         public void OnRowDroped(object? sender, TreeDataGridRowDragEventArgs e)
